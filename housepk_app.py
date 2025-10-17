@@ -104,3 +104,6 @@ def api_predict():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
+print("print on main branch line 108")
+print("print on checkout merge error branch line 109")
