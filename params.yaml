@@ -1,0 +1,52 @@
+# Model parameters
+model:
+  type: "RandomForestRegressor"
+  n_estimators: 200
+  random_state: 42
+  max_depth: null
+  min_samples_split: 2
+  min_samples_leaf: 1
+  max_features: "sqrt"
+
+# Data parameters
+data:
+  input_file: "data/Entities.csv"
+  test_size: 0.2
+  random_state: 42
+  target_column: "price"
+  
+# Feature engineering
+features:
+  categorical_columns:
+    - "property_type"
+    - "city" 
+    - "province_name"
+    - "purpose"
+  numeric_columns:
+    - "latitude"
+    - "longitude"
+    - "baths"
+    - "bedrooms"
+    - "Total_Area"
+  drop_columns:
+    - "Unnamed: 0"
+    - "property_id"
+    - "location_id"
+    - "page_url"
+    - "location"
+    - "date_added"
+    - "agency"
+    - "agent"
+
+# Output paths
+outputs:
+  model_path: "models/house_price_model.pkl"
+  features_path: "models/model_features.pkl"
+  encoders_path: "models/label_encoders.pkl"
+  feature_map_path: "models/feature_field_map.pkl"
+  metrics_path: "metrics/metrics.json"
+
+# Data cleaning
+preprocessing:
+  drop_na: true
+  na_strategy: "drop_rows"  # options: drop_rows, drop_columns, impute

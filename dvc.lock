@@ -1,0 +1,83 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/Entities.csv
+      hash: md5
+      md5: 0cf613eedb9c9bbb14e5aaeeafd97419
+      size: 47204213
+    - path: params.yaml
+      hash: md5
+      md5: 7eb31be4a45048ee8e26d28a51ae9337
+      size: 1065
+    - path: src/train.py
+      hash: md5
+      md5: 208510845f74498ddc40d3cb7e007a07
+      size: 6137
+    params:
+      params.yaml:
+        data:
+          input_file: data/Entities.csv
+          test_size: 0.2
+          random_state: 42
+          target_column: price
+        features:
+          categorical_columns:
+          - property_type
+          - city
+          - province_name
+          - purpose
+          numeric_columns:
+          - latitude
+          - longitude
+          - baths
+          - bedrooms
+          - Total_Area
+          drop_columns:
+          - 'Unnamed: 0'
+          - property_id
+          - location_id
+          - page_url
+          - location
+          - date_added
+          - agency
+          - agent
+        model:
+          type: RandomForestRegressor
+          n_estimators: 100
+          random_state: 42
+          max_depth:
+          min_samples_split: 2
+          min_samples_leaf: 1
+          max_features: sqrt
+        outputs:
+          model_path: models/house_price_model.pkl
+          features_path: models/model_features.pkl
+          encoders_path: models/label_encoders.pkl
+          feature_map_path: models/feature_field_map.pkl
+          metrics_path: metrics/metrics.json
+        preprocessing:
+          drop_na: true
+          na_strategy: drop_rows
+    outs:
+    - path: metrics/metrics.json
+      hash: md5
+      md5: 90510a6b7bf17fe301fce32751547341
+      size: 118
+    - path: models/feature_field_map.pkl
+      hash: md5
+      md5: 5e2c72526a30142c748240e6b933223a
+      size: 138
+    - path: models/house_price_model.pkl
+      hash: md5
+      md5: 82af3bb4c2bc251c8c7dca0135baf597
+      size: 611942449
+    - path: models/label_encoders.pkl
+      hash: md5
+      md5: 75080dfc883825797494db7b180f181f
+      size: 1348
+    - path: models/model_features.pkl
+      hash: md5
+      md5: f9cfa3ebe4ea231aac88a77977488483
+      size: 120

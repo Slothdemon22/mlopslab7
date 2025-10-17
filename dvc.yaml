@@ -1,0 +1,20 @@
+stages:
+  train:
+    cmd: python src/train.py
+    deps:
+    - data/Entities.csv
+    - src/train.py
+    - params.yaml
+    params:
+    - model
+    - data
+    - features
+    - preprocessing
+    - outputs
+    outs:
+    - models/house_price_model.pkl
+    - models/model_features.pkl
+    - models/label_encoders.pkl
+    - models/feature_field_map.pkl
+    metrics:
+    - metrics/metrics.json
