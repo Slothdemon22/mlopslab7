@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Image Classification</h1>
+        <p>Upload an image to get predictions from our CNN model</p>
+        
+        <form method="post" enctype="multipart/form-data" class="upload-form">
+            <div class="file-input-wrapper">
+                <input type="file" name="file" id="file" accept="image/*" required>
+                <label for="file" class="file-label">
+                    <span class="file-text">Choose Image</span>
+                    <span class="file-icon">📁</span>
+                </label>
+            </div>
+            <button type="submit" class="submit-btn">Predict</button>
+        </form>
+
+        {% if result %}
+        <div class="result-container">
+            <h2>Prediction Results</h2>
+            <div class="result-card">
+                <div class="prediction">
+                    <span class="label">Predicted Class:</span>
+                    <span class="value {% if result.label == 1 %}positive{% else %}negative{% endif %}">
+                        {% if result.label == 1 %}Class 1{% else %}Class 0{% endif %}
+                    </span>
+                </div>
+                <div class="confidence">
+                    <span class="label">Confidence:</span>
+                    <span class="value">{{ "%.2f"|format(result.confidence * 100) }}%</span>
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" data-width="{{ (result.confidence * 100)|round(1) }}"></div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="error-container">
+            <h2>Error</h2>
+            <p class="error-message">{{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // File input styling
+        document.getElementById('file').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Choose Image';
+            document.querySelector('.file-text').textContent = fileName;
+        });
+        
+        // Set confidence bar width
+        const confidenceFill = document.querySelector('.confidence-fill');
+        if (confidenceFill) {
+            const width = confidenceFill.getAttribute('data-width');
+            confidenceFill.style.width = width + '%';
+        }
+    </script>
+</body>
+</html>
